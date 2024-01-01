@@ -1,5 +1,30 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>home</h1>
+<div class="container mt-5">
+    <h2>Available Events</h2>
+
+  
+    {% if events %}
+      <ul class="list-group">
+      
+        {% for event in events %}
+          <li class="list-group-item">
+            <h4>{{ event.title }}</h4>
+            <p>{{ event.description }}</p>
+            <p>Date: {{ event.date }}, Time: {{ event.time }}</p>
+            <p>Location: {{ event.location_name }}</p>
+            <p>Available Slots: {{ event.available_slots }}</p>
+          
+            <form method="post" action="{% url 'eventapp:enroll-event' event_id=event.id %}">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-primary">Enroll for Event</button>
+            </form>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No available events at the moment.</p>
+    {% endif %}
+  </div>
 {% endblock %}

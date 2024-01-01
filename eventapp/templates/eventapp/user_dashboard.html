@@ -1,0 +1,23 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>User Dashboard</h2>
+
+  {% if total_registered_events > 0 %}
+    <p>You are registered for {{ total_registered_events }} events:</p>
+    <ul>
+      {% for event in user_registered_events %}
+        <li>
+          {{ event.title }} - {{ event.date }} at {{ event.time }}
+          <form method="post" action="{% url 'eventapp:unregister-from-event' event_id=event.id %}">
+            {% csrf_token %}
+            <button class="btn btn-danger" type="submit">Unenroll</button>
+          </form>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>You are not registered for any events yet.</p>
+  {% endif %}
+{% endblock %}

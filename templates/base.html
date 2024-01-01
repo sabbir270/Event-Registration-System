@@ -8,11 +8,13 @@
 </head>
 <body>
 
+  
 <!-- Navbar -->
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
+ 
     <div class="container">
-        <a class="navbar-brand" href="#">EventRegistraionSystem</a>
+        <a class="navbar-brand" href="{% url 'eventapp:home' %}">EventRegistraionSystem</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -31,15 +33,30 @@
                     </li>
                 {% endif %}
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Dashboard</a>
+                    <a class="nav-link" href="{% url 'eventapp:user-dashboard' %}">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Home</a>
+                    <a class="nav-link" href="{% url 'eventapp:home' %}">Home</a>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
+
+
+{% if messages %}
+  <ul class="alert alert-success" role="alert">
+    {% for message in messages %}
+      <li{% if message.tags %} class="{{ message.tags }} flash-message"{% endif %}>{{ message }}</li>
+    {% endfor %}
+  </ul>
+  <script>
+    setTimeout(function(){
+        document.querySelector('.alert-success').remove();
+    }, 3000); // 3000 milliseconds = 3 seconds
+  </script>
+{% endif %}
+
 
 <!-- Content -->
 <div class="container">
@@ -47,7 +64,7 @@
     {% endblock %}
 </div>
 
-
+<script src="https://code.jquery.com/jquery-3.7.1.slim.min.js" integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
 
 </body>
 </html>
