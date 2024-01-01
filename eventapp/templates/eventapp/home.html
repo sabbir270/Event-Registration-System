@@ -2,12 +2,14 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h2>Available Events</h2>
+    <h2>{% if query %}Search Results{% else %}Available Events{% endif %}</h2>
 
-  
+    {% if query %}
+      <p>Showing results for: "{{ query }}"</p>
+    {% endif %}
+
     {% if events %}
       <ul class="list-group">
-      
         {% for event in events %}
           <li class="list-group-item">
             <h4>{{ event.title }}</h4>
@@ -24,7 +26,7 @@
         {% endfor %}
       </ul>
     {% else %}
-      <p>No available events at the moment.</p>
+      <p>{% if query %}No results found.{% else %}No available events at the moment.{% endif %}</p>
     {% endif %}
   </div>
 {% endblock %}

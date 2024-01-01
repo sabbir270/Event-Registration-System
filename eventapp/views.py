@@ -6,15 +6,25 @@ from .models import Event
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.db.models import Q
 
+# views.py
 
-
+from django.shortcuts import render
+from .models import Event
 
 def home(request):
-    events = Event.objects.all()
-    context = {'events': events}
-    
+    query = request.GET.get('q') 
+    if query:
+        events = Event.objects.filter(
+            Q(title__icontains=query) | Q(description__icontains=query) | Q(location_name__icontains=query)
+        )
+    else:
+        events = Event.objects.all()
+
+    context = {'events': events, 'query': query}
     return render(request, 'eventapp/home.html', context)
+
 
 def register_user(request):
     if request.method == 'POST':
